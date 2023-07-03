@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="stylesheet.css">
+  <script src="script.js"></script>
+  <title>Generasi Gigih 3.0 | Login</title>
+</head>
+<body>
+<header>
+  <div class="container">
+    <img src="assets/gengigih-logo.png" alt="" class="logo">
+  </div>
+</header>
+
+<div class="section-login">
+  <div class="container">
+    <h1>Sign in to account</h1>
+    <p>Let's continue your studies at Generasi Gigih 3.0</p>
+
+    <form action="#" method="post" onsubmit="handleLogin()">
+      <label for="email"> Email address
+        <input id="email" type="text" name="email" onkeyup="validateEmailInput()" required>
+        <span id="email-error" class="text-error">* Validation goes here</span>
+      </label>
+
+      <label for="password"> Password
+        <input id="password" type="password" name="password" onkeyup="validatePasswordInput()" required>
+        <span id="password-error" class="text-error">* Validation goes here</span>
+      </label>
+
+      <button class="btn btn-primary" type="submit">Login</button>
+    </form>
+  </div>
+</div>
+</body>
+</html>
