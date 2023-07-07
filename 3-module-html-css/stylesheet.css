@@ -1,0 +1,182 @@
+body {
+    margin: 0;
+    background-color: rgb(13, 2, 40);
+    color: white;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    line-height: 20px;
+}
+
+.menu {
+    background-color: rgba(0, 0, 0, 0.61);
+}
+
+.menu .container {
+    padding: 0 16px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.menu-group-left {
+    margin: auto 0;
+    display: flex;
+}
+
+.text-menu-brand {
+    padding: 8px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.menu-list {
+    margin: auto 0;
+    font-size: 14px;
+}
+
+.menu-list li {
+    float: left;
+    list-style-type: none;
+    padding: 8px 16px;
+    opacity: 0.6;
+}
+
+.menu-list li:hover {
+    cursor: pointer;
+    opacity: 0.8;
+    transition: 200ms;
+}
+
+.menu-list .active {
+    opacity: 1;
+    border-bottom: thin solid white;
+}
+
+.menu-group-right {
+    margin: auto 0;
+}
+
+.img-profile {
+    width: 40px;
+    height: 40px;
+    border-radius: 48px;
+    object-fit: cover;
+}
+
+main {
+    height: 100%    ;
+    display: flex;
+}
+
+main .navigation {
+    width: 20%;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.nav-menu-list {
+    padding: 0 26px;
+}
+
+.nav-menu-list li {
+    padding: 8px 0;
+    font-size: 14px;
+    list-style-type: none;
+    opacity: 0.8;
+}
+
+.nav-menu-list li:hover {
+    cursor: pointer;
+    opacity: 1;
+    transition: 200ms;
+}
+
+.nav-menu-list .active {
+    opacity: 1;
+}
+
+.nav-menu-list li .fa {
+    padding-right: 8px;
+}
+
+main .content {
+    width: 80%;
+    padding: 24px 32px;
+}
+
+.quick-playlist ul {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+}
+
+.quick-playlist li {
+    display: flex;
+    align-items: center;
+    flex-grow: 2;
+    list-style-type: none;
+    margin: 8px;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.quick-playlist .img-cover {
+    width: 72px;
+    height: 72px;
+    object-fit: cover;
+    padding-right: 16px;
+    display: block;
+}
+
+.today-hits {
+    margin-top: 32px;
+}
+
+.today-hits .section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.today-hits h2 {
+    display: inline;
+}
+
+.today-hits a {
+    color: white;
+    opacity: 0.8;
+    font-size: 14px;
+}
+
+.today-hits a:hover {
+    opacity: 1;
+}
+
+.section-playlist {
+    display: flex;
+}
+
+.playlist-card {
+    width: 25%;
+    margin: 16px 24px;
+}
+
+.playlist-card:hover {
+    cursor: pointer;
+}
+
+.playlist-card img {
+    width: 100%;
+    object-fit: cover;
+}
+
+.playlist-card h6 {
+    font-size: 16px;
+    margin: 8px 0;
+}
+
+.playlist-card p {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+
+
+
