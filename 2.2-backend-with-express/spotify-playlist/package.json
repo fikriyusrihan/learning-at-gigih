@@ -1,0 +1,18 @@
+{
+  "name": "spotify-playlist",
+  "version": "1.0.0",
+  "description": "Simple RESTful API to storing list of music",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Fikri Yusrihan",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "uuid": "^9.0.0"
+  }
+}
