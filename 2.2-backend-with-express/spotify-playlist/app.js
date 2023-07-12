@@ -1,5 +1,5 @@
 import express from 'express';
-import bodyParser from 'body-parser';
+import httpStatus from "http-status";
 import cors from 'cors';
 import {v4 as uuidv4} from 'uuid';
 
@@ -7,16 +7,17 @@ const app = express();
 const playlists = new Map();
 
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json());
 
 app.get('/', (req, res) => {
-    res.statusCode = 200;
+    res.statusCode = httpStatus.OK;
     res.json({message: 'Hello World!'});
 });
+
 app.get('/playlists', (req, res) => {
     const response = Array.from(playlists.values());
 
-    res.statusCode = 200;
+    res.statusCode = httpStatus.OK;
     res.json(response);
 });
 
@@ -26,8 +27,8 @@ app.post('/playlists', (req, res) => {
 
     playlists.set(id, {id, name, songs: []});
 
-    res.statusCode = 201;
-    res.json({id});
+    res.statusCode = httpStatus.CREATED;
+    res.json({id, name});
 });
 
 app.get('/playlists/:id', (req, res) => {
@@ -36,10 +37,10 @@ app.get('/playlists/:id', (req, res) => {
     if (playlists.has(id)) {
         const playlist = playlists.get(id);
 
-        res.statusCode = 200;
+        res.statusCode = httpStatus.OK;
         res.json(playlist);
     } else {
-        res.statusCode = 404;
+        res.statusCode = httpStatus.NOT_FOUND;
         res.json({error: 'the requested playlist is not found'});
     }
 });
@@ -55,10 +56,10 @@ app.post('/playlists/:id/songs', (req, res) => {
         playlist.songs.push(song);
         playlists.set(id, playlist);
 
-        res.statusCode = 201;
+        res.statusCode = httpStatus.CREATED;
         res.json(song);
     } else {
-        res.statusCode = 404;
+        res.statusCode = httpStatus.NOT_FOUND;
         res.json({error: 'the requested playlist is not found'});
     }
 });
@@ -71,14 +72,14 @@ app.get('/playlists/:id/songs', (req, res) => {
         const songs = playlist.songs;
 
         if (songs.length <= 0) {
-            res.statusCode = 404;
+            res.statusCode = httpStatus.NOT_FOUND;
             res.json({error: 'the requested playlist has no songs'});
         } else {
             const selectedSong = songs[Math.floor(Math.random() * songs.length)];
             res.redirect(selectedSong.url);
         }
     } else {
-        res.statusCode = 404;
+        res.statusCode = httpStatus.NOT_FOUND;
         res.json({error: 'the requested playlist is not found'});
     }
 });
