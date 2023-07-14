@@ -1,0 +1,21 @@
+{
+  "name": "spotify-playlist-tier",
+  "version": "1.0.0",
+  "description": "simple study case of software architecture implementation",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "express"
+  ],
+  "author": "Fikri Yusrihan",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "http-status": "^1.6.2",
+    "uuid": "^9.0.0"
+  }
+}
