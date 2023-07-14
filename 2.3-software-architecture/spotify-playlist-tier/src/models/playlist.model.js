@@ -1,5 +1,4 @@
 import {v4 as uuidv4} from 'uuid';
-import db from "../db/db.model.js";
 
 class PlaylistModel {
     constructor(db) {
@@ -48,6 +47,4 @@ class PlaylistModel {
     }
 }
 
-const Playlist = new PlaylistModel(db);
-
-export default Playlist;
+export default PlaylistModel;

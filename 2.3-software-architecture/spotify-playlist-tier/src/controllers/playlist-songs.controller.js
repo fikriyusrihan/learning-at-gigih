@@ -1,110 +1,118 @@
-import {getPlaylistById, updatePlaylistById} from "../services/playlist.service.js";
 import httpStatus from "http-status";
 import {v4 as uuidv4} from 'uuid';
 
-const handleAddSong = async (req, res) => {
-    try {
-        const playlist = getPlaylistById(req.params.playlistId);
-        const song = req.body;
-        song.id = uuidv4();
-        song.count = 0;
-        playlist.songs.push(song);
+class PlaylistSongsController {
+    constructor(playlistModel) {
+        this._playlistModel = playlistModel;
 
-        const data = updatePlaylistById(req.params.playlistId, playlist);
-        res
-            .status(httpStatus.CREATED)
-            .json({
-                status: 'success',
-                message: 'Song added successfully into playlist',
-                data,
-            });
-    } catch (e) {
-        res
-            .status(e.statusCode)
-            .json({
-                status: 'failed',
-                message: e.message,
-            });
+        this.handleAddSong = this.handleAddSong.bind(this);
+        this.handleDeleteSong = this.handleDeleteSong.bind(this);
+        this.handlePlaySong = this.handlePlaySong.bind(this);
     }
-}
 
-const handleDeleteSong = async (req, res) => {
-    try {
-        const playlist = getPlaylistById(req.params.playlistId);
-        const songId = req.params.songId;
-        const songIndex = playlist.songs.findIndex(song => song.id === songId);
+    async handleAddSong(req, res) {
+        try {
+            const playlist = this._playlistModel.getPlaylistById(req.params.playlistId);
+            const song = req.body;
 
-        if (songIndex === -1) {
+            song.id = uuidv4();
+            song.count = 0;
+            playlist.songs.push(song);
+
+            const data = this._playlistModel.updatePlaylistById(req.params.playlistId, playlist);
             res
-                .status(httpStatus.NOT_FOUND)
+                .status(httpStatus.CREATED)
+                .json({
+                    status: 'success',
+                    message: 'Song added successfully into playlist',
+                    data,
+                });
+        } catch (e) {
+            res
+                .status(e.statusCode)
                 .json({
                     status: 'failed',
-                    message: 'Song not found in playlist',
+                    message: e.message,
                 });
-            return;
         }
-
-        playlist.songs.splice(songIndex, 1);
-
-        const data = updatePlaylistById(req.params.playlistId, playlist);
-        res
-            .status(httpStatus.OK)
-            .json({
-                status: 'success',
-                message: 'Song deleted successfully from playlist',
-                data,
-            });
-    } catch (e) {
-        res
-            .status(e.statusCode)
-            .json({
-                status: 'failed',
-                message: e.message,
-            });
     }
-}
 
-const handlePlaySong = async (req, res) => {
-    try {
-        const playlist = getPlaylistById(req.params.playlistId);
-        const songId = req.params.songId;
-        const songIndex = playlist.songs.findIndex(song => song.id === songId);
+    async handleDeleteSong(req, res) {
+        try {
+            const playlist = this._playlistModel.getPlaylistById(req.params.playlistId);
+            const songId = req.params.songId;
+            const songIndex = playlist.songs.findIndex(song => song.id === songId);
 
-        if (songIndex === -1) {
+            if (songIndex === -1) {
+                res
+                    .status(httpStatus.NOT_FOUND)
+                    .json({
+                        status: 'failed',
+                        message: 'Song not found in playlist',
+                    });
+
+                return;
+            }
+
+            playlist.songs.splice(songIndex, 1);
+
+            const data = this._playlistModel.updatePlaylistById(req.params.playlistId, playlist);
             res
-                .status(httpStatus.NOT_FOUND)
+                .status(httpStatus.OK)
+                .json({
+                    status: 'success',
+                    message: 'Song deleted successfully from playlist',
+                    data,
+                });
+        } catch (e) {
+            res
+                .status(e.statusCode)
                 .json({
                     status: 'failed',
-                    message: 'The requested song is not found in playlist',
+                    message: e.message,
                 });
-            return;
         }
+    }
 
-        const data = playlist.songs[songIndex];
-        data.count = data.count + 1;
-        playlist.songs[songIndex] = data;
+    async handlePlaySong(req, res) {
+        try {
+            const playlist = this._playlistModel.getPlaylistById(req.params.playlistId);
+            const songId = req.params.songId;
+            const songIndex = playlist.songs.findIndex(song => song.id === songId);
 
-        updatePlaylistById(req.params.playlistId, playlist);
+            if (songIndex === -1) {
+                res
+                    .status(httpStatus.NOT_FOUND)
+                    .json({
+                        status: 'failed',
+                        message: 'The requested song is not found in playlist',
+                    });
 
-        res
-            .status(httpStatus.OK)
-            .json({
-                status: 'success',
-                message: 'Song played successfully',
-                data,
-            });
-    } catch (e) {
-        res
-            .status(e.statusCode)
-            .json({
-                status: 'failed',
-                message: e.message,
-            });
+                return;
+            }
+
+            const data = playlist.songs[songIndex];
+            data.count = data.count + 1;
+            playlist.songs[songIndex] = data;
+
+            this._playlistModel.updatePlaylistById(req.params.playlistId, playlist);
+
+            res
+                .status(httpStatus.OK)
+                .json({
+                    status: 'success',
+                    message: 'Song played successfully',
+                    data,
+                });
+        } catch (e) {
+            res
+                .status(e.statusCode)
+                .json({
+                    status: 'failed',
+                    message: e.message,
+                });
+        }
     }
 }
 
-export {
-    handleAddSong,
-    handleDeleteSong,
-    handlePlaySong,
-}
+export default PlaylistSongsController;

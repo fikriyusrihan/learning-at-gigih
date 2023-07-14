@@ -1,103 +1,101 @@
 import httpStatus from "http-status";
-import {
-    createPlaylist,
-    deletePlaylistById,
-    getAllPlaylists,
-    getPlaylistById,
-    updatePlaylistById
-} from "../services/playlist.service.js";
 
-const handleCreatePlaylist = async (req, res) => {
-    const response = createPlaylist(req.body);
+class PlaylistController {
+    constructor(playlistService) {
+        this._playlistService = playlistService;
 
-    res
-        .status(httpStatus.CREATED)
-        .json({
-            status: 'success',
-            message: 'Playlist created successfully',
-            data: response,
-        });
-}
+        this.handleCreatePlaylist = this.handleCreatePlaylist.bind(this);
+        this.handleGetPlaylists = this.handleGetPlaylists.bind(this);
+        this.handleGetPlaylistById = this.handleGetPlaylistById.bind(this);
+        this.handleUpdatePlaylistById = this.handleUpdatePlaylistById.bind(this);
+        this.handleDeletePlaylistById = this.handleDeletePlaylistById.bind(this);
+    }
 
-const handleGetPlaylists = async (req, res) => {
-    const data = getAllPlaylists();
+    async handleCreatePlaylist(req, res) {
+        const response = await this._playlistService.createPlaylist(req.body);
 
-    res
-        .status(httpStatus.OK)
-        .json({
-            status: 'success',
-            message: 'Playlists retrieved successfully',
-            data,
-        });
-}
+        res
+            .status(httpStatus.CREATED)
+            .json({
+                status: 'success',
+                message: 'Playlist created successfully',
+                data: response,
+            });
+    }
 
-const handleGetPlaylistById = async (req, res) => {
-    try {
-        const data = getPlaylistById(req.params.playlistId);
+    async handleGetPlaylists(req, res) {
+        const data = await this._playlistService.getAllPlaylists();
+
         res
             .status(httpStatus.OK)
             .json({
                 status: 'success',
-                message: 'Playlist retrieved successfully',
+                message: 'Playlists retrieved successfully',
                 data,
             });
-    } catch (e) {
-        console.log(e);
-        res
-            .status(e.statusCode)
-            .json({
-                status: 'failed',
-                message: e.message,
-            });
+    }
+
+    async handleGetPlaylistById(req, res) {
+        try {
+            const data = await this._playlistService.getPlaylistById(req.params.playlistId);
+            res
+                .status(httpStatus.OK)
+                .json({
+                    status: 'success',
+                    message: 'Playlist retrieved successfully',
+                    data,
+                });
+        } catch (e) {
+            res
+                .status(e.statusCode)
+                .json({
+                    status: 'failed',
+                    message: e.message,
+                });
+        }
+    }
+
+    async handleUpdatePlaylistById(req, res) {
+        try {
+            const data = await this._playlistService.updatePlaylistById(req.params.playlistId, req.body);
+            res
+                .status(httpStatus.OK)
+                .json({
+                    status: 'success',
+                    message: 'Playlist updated successfully',
+                    data,
+                });
+        } catch (e) {
+            console.log(e);
+            res
+                .status(e.statusCode)
+                .json({
+                    status: 'failed',
+                    message: e.message,
+                });
+        }
+    }
+
+    async handleDeletePlaylistById(req, res) {
+        try {
+            const data = await this._playlistService.deletePlaylistById(req.params.playlistId);
+            res
+                .status(httpStatus.OK)
+                .json({
+                    status: 'success',
+                    message: 'Playlist deleted successfully',
+                    data,
+                });
+        } catch (e) {
+            console.log(e);
+            res
+                .status(e.statusCode)
+                .json({
+                    status: 'failed',
+                    message: e.message,
+                });
+        }
     }
 }
 
-const handleUpdatePlaylistById = async (req, res) => {
-    try {
-        const data = updatePlaylistById(req.params.playlistId, req.body);
-
-        res
-            .status(httpStatus.OK)
-            .json({
-                status: 'success',
-                message: 'Playlist updated successfully',
-                data,
-            });
-    } catch (e) {
-        res
-            .status(e.statusCode)
-            .json({
-                status: 'failed',
-                message: e.message,
-            });
-    }
-
-}
-
-const handleDeletePlaylistById = async (req, res) => {
-    try {
-        deletePlaylistById(req.params.playlistId);
-
-        res
-            .status(httpStatus.OK)
-            .json({
-                status: 'success',
-                message: 'Playlist deleted successfully',
-            });
-    } catch (e) {
-        res
-            .status(e.statusCode)
-            .json({
-                status: 'failed',
-                message: e.message,
-            });
-    }
-}
-
-export {
-    handleCreatePlaylist,
-    handleGetPlaylists,
-    handleGetPlaylistById,
-    handleUpdatePlaylistById,
-    handleDeletePlaylistById,
-};
+export default PlaylistController;
