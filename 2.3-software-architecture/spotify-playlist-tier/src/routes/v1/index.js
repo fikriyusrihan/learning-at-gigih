@@ -1,17 +1,17 @@
-import express from "express";
-import playlistRoute from "./playlist.route.js";
+import express from 'express';
+import playlistRoute from './playlist.route';
 
 const router = express.Router();
 
 const defaultRoutes = [
-    {
-        path: '/playlists',
-        route: playlistRoute,
-    },
+  {
+    path: '/playlists',
+    route: playlistRoute,
+  },
 ];
 
 defaultRoutes.forEach((route) => {
-    router.use(route.path, route.route);
+  router.use(route.path, route.route);
 });
 
 export default router;
