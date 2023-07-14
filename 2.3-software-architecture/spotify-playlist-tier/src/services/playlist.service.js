@@ -1,8 +1,9 @@
-import NotFoundError from '../utils/errors.utils';
+import NotFoundError from '../utils/errors/not-found.error.js';
+import db from '../utils/db/db.js';
 
 class PlaylistService {
-  constructor(playlistModel) {
-    this.playlistModel = playlistModel;
+  constructor() {
+    this.db = db;
 
     this.createPlaylist = this.createPlaylist.bind(this);
     this.getAllPlaylists = this.getAllPlaylists.bind(this);
@@ -11,39 +12,42 @@ class PlaylistService {
     this.deletePlaylistById = this.deletePlaylistById.bind(this);
   }
 
-  createPlaylist(body) {
-    return this.playlistModel.createPlaylist(body);
-  }
-
-  getAllPlaylists() {
-    return this.playlistModel.getAllPlaylists();
-  }
-
-  getPlaylistById(id) {
-    const playlist = this.playlistModel.getPlaylistById(id);
-    if (!playlist) {
-      throw new NotFoundError('The requested playlist was not found.');
-    }
+  createPlaylist(playlist) {
+    this.db.set(playlist.id, playlist);
 
     return playlist;
   }
 
-  updatePlaylistById(id, body) {
-    const playlist = this.playlistModel.getPlaylistById(id);
-    if (!playlist) {
+  getAllPlaylists() {
+    return Array.from(this.db.values());
+  }
+
+  getPlaylistById(id) {
+    if (!this.db.has(id)) {
       throw new NotFoundError('The requested playlist was not found.');
     }
 
-    return this.playlistModel.updatePlaylistById(id, body);
+    return this.db.get(id);
+  }
+
+  updatePlaylistById(id, playlist) {
+    if (!this.db.has(id)) {
+      throw new NotFoundError('The requested playlist was not found.');
+    }
+
+    this.db.set(id, playlist);
+
+    return playlist;
   }
 
   deletePlaylistById(id) {
-    const playlist = this.playlistModel.getPlaylistById(id);
-    if (!playlist) {
+    if (!this.db.has(id)) {
       throw new NotFoundError('The requested playlist was not found.');
     }
 
-    this.playlistModel.deletePlaylistById(id);
+    this.db.delete(id);
+
+    return true;
   }
 }
 

@@ -1,5 +1,5 @@
 import httpStatus from 'http-status';
-import { v4 as uuidv4 } from 'uuid';
+import Song from '../models/song.model.js';
 
 class PlaylistSongsController {
   constructor(playlistModel) {
@@ -12,24 +12,31 @@ class PlaylistSongsController {
 
   async handleAddSong(req, res) {
     try {
-      const playlist = this.playlistModel.getPlaylistById(req.params.playlistId);
-      const song = req.body;
+      const { playlistId } = req.params;
+      const { title, artists, url } = req.body;
 
-      song.id = uuidv4();
-      song.count = 0;
-      playlist.songs.push(song);
+      if (!title || !artists || !url) {
+        res.status(httpStatus.BAD_REQUEST)
+          .json({
+            status: 'failed',
+            message: 'Invalid request body, please check your request body and try again',
+          });
 
-      const data = this.playlistModel.updatePlaylistById(req.params.playlistId, playlist);
-      res
-        .status(httpStatus.CREATED)
+        return;
+      }
+
+      const song = new Song(title, artists, url);
+      const playlist = this.playlistModel.getPlaylistById(playlistId);
+      playlist.addSong(song);
+
+      res.status(httpStatus.CREATED)
         .json({
           status: 'success',
           message: 'Song added successfully into playlist',
-          data,
+          data: playlist,
         });
     } catch (e) {
-      res
-        .status(e.statusCode)
+      res.status(e.statusCode)
         .json({
           status: 'failed',
           message: e.message,
@@ -39,34 +46,19 @@ class PlaylistSongsController {
 
   async handleDeleteSong(req, res) {
     try {
-      const playlist = this.playlistModel.getPlaylistById(req.params.playlistId);
-      const { songId } = req.params;
-      const songIndex = playlist.songs.findIndex((song) => song.id === songId);
+      const { playlistId, songId } = req.params;
 
-      if (songIndex === -1) {
-        res
-          .status(httpStatus.NOT_FOUND)
-          .json({
-            status: 'failed',
-            message: 'Song not found in playlist',
-          });
+      const playlist = this.playlistModel.getPlaylistById(playlistId);
+      playlist.removeSong(songId);
 
-        return;
-      }
-
-      playlist.songs.splice(songIndex, 1);
-
-      const data = this.playlistModel.updatePlaylistById(req.params.playlistId, playlist);
-      res
-        .status(httpStatus.OK)
+      res.status(httpStatus.OK)
         .json({
           status: 'success',
           message: 'Song deleted successfully from playlist',
-          data,
+          data: playlist,
         });
     } catch (e) {
-      res
-        .status(e.statusCode)
+      res.status(e.statusCode)
         .json({
           status: 'failed',
           message: e.message,
@@ -76,37 +68,18 @@ class PlaylistSongsController {
 
   async handlePlaySong(req, res) {
     try {
-      const playlist = this.playlistModel.getPlaylistById(req.params.playlistId);
-      const { songId } = req.params;
-      const songIndex = playlist.songs.findIndex((song) => song.id === songId);
+      const { playlistId, songId } = req.params;
+      const playlist = this.playlistModel.getPlaylistById(playlistId);
+      playlist.playSong(songId);
 
-      if (songIndex === -1) {
-        res
-          .status(httpStatus.NOT_FOUND)
-          .json({
-            status: 'failed',
-            message: 'The requested song is not found in playlist',
-          });
-
-        return;
-      }
-
-      const data = playlist.songs[songIndex];
-      data.count += 1;
-      playlist.songs[songIndex] = data;
-
-      this.playlistModel.updatePlaylistById(req.params.playlistId, playlist);
-
-      res
-        .status(httpStatus.OK)
+      res.status(httpStatus.OK)
         .json({
           status: 'success',
           message: 'Song played successfully',
-          data,
+          data: playlist,
         });
     } catch (e) {
-      res
-        .status(e.statusCode)
+      res.status(e.statusCode)
         .json({
           status: 'failed',
           message: e.message,

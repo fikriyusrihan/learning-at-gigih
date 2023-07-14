@@ -1,5 +1,5 @@
 import express from 'express';
-import playlistRoute from './playlist.route';
+import playlistRoute from './playlist.route.js';
 
 const router = express.Router();
 

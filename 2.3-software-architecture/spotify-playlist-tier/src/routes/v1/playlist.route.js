@@ -1,13 +1,10 @@
 import express from 'express';
-import PlaylistController from '../../controllers/playlist.controller';
-import PlaylistService from '../../services/playlist.service';
-import db from '../../db/db.model';
-import PlaylistSongsController from '../../controllers/playlist-songs.controller';
-import PlaylistModel from '../../models/playlist.model';
+import PlaylistController from '../../controllers/playlist.controller.js';
+import PlaylistService from '../../services/playlist.service.js';
+import PlaylistSongsController from '../../controllers/playlist-songs.controller.js';
 
 const router = express.Router();
-const playlistModel = new PlaylistModel(db);
-const playlistService = new PlaylistService(playlistModel);
+const playlistService = new PlaylistService();
 const playlistController = new PlaylistController(playlistService);
 const playlistSongsController = new PlaylistSongsController(playlistService);
 

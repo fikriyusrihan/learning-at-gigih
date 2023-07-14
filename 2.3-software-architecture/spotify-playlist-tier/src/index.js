@@ -1,7 +1,7 @@
 import express from 'express';
 import httpStatus from 'http-status';
 import cors from 'cors';
-import routes from './routes/v1/index';
+import routes from './routes/v1/index.js';
 
 const app = express();
 

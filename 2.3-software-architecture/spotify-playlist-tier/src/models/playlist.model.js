@@ -1,50 +1,39 @@
 import { v4 as uuidv4 } from 'uuid';
+import NotFoundError from '../utils/errors/not-found.error.js';
 
-class PlaylistModel {
-  constructor(db) {
-    this.db = db;
+class Playlist {
+  constructor(name) {
+    this.id = uuidv4();
+    this.name = name;
+    this.songs = [];
   }
 
-  createPlaylist(body) {
-    const id = uuidv4();
-    const playlist = {
-      id,
-      name: body.name,
-      songs: [],
-    };
-
-    this.db.set(id, playlist);
-
-    return playlist;
+  addSong(song) {
+    this.songs.push(song);
   }
 
-  getAllPlaylists() {
-    return Array.from(this.db.values());
-  }
-
-  getPlaylistById(id) {
-    const playlist = this.db.get(id);
-    if (!playlist) {
-      return playlist;
+  removeSong(songId) {
+    const songIndex = this.songs.findIndex((song) => song.id === songId);
+    if (songIndex === -1) {
+      throw new NotFoundError('The requested song was not found in the playlist.');
     }
 
-    playlist.songs = playlist.songs.sort((a, b) => b.count - a.count);
-
-    return this.db.get(id);
+    this.songs.splice(songIndex, 1);
   }
 
-  updatePlaylistById(id, body) {
-    const playlist = this.db.get(id);
-    playlist.name = body.name;
+  playSong(songId) {
+    const songIndex = this.songs.findIndex((song) => song.id === songId);
+    if (songIndex === -1) {
+      throw new NotFoundError('The requested song was not found in the playlist.');
+    }
 
-    this.db.set(id, playlist);
-
-    return playlist;
+    this.songs[songIndex].count += 1;
+    this.sortSongsByPlayedCount();
   }
 
-  deletePlaylistById(id) {
-    this.db.delete(id);
+  sortSongsByPlayedCount() {
+    this.songs.sort((a, b) => b.count - a.count);
   }
 }
 
-export default PlaylistModel;
+export default Playlist;
