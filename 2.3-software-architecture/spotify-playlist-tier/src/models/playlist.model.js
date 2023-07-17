@@ -37,3 +37,30 @@ class Playlist {
 }
 
 export default Playlist;
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Playlist:
+ *       type: object
+ *       required:
+ *         - name
+ *       properties:
+ *         id:
+ *           type: string
+ *           format: uuid
+ *           description: The auto-generated id of the playlist.
+ *         name:
+ *           type: string
+ *           description: The name of the playlist.
+ *         songs:
+ *           type: array
+ *           description: The songs of the playlist.
+ *           items:
+ *             $ref: '#/components/schemas/Song'
+ *       example:
+ *         id: 1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed
+ *         name: Favorites
+ *         songs: []
+ */

@@ -1,7 +1,7 @@
 {
   "name": "spotify-playlist-tier",
   "version": "1.0.0",
-  "description": "simple study case of software architecture implementation",
+  "description": "Simple study case of software architecture implementation",
   "main": "src/index.js",
   "type": "module",
   "scripts": {
@@ -17,6 +17,8 @@
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "http-status": "^1.6.2",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
     "uuid": "^9.0.0"
   },
   "devDependencies": {

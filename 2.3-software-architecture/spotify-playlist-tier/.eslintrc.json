@@ -9,6 +9,7 @@
         "sourceType": "module"
     },
     "rules": {
-        "import/extensions": "off"
+        "import/extensions": "off",
+        "import/no-extraneous-dependencies": "off"
     }
 }

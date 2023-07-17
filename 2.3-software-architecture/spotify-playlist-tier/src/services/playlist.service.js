@@ -51,4 +51,4 @@ class PlaylistService {
   }
 }
 
-export default PlaylistService;
+export default new PlaylistService();
