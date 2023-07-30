@@ -1,0 +1,25 @@
+button {
+    padding: 8px 48px;
+    border-radius: 32px;
+    font-weight: bold;
+    font-family: "Roboto Mono", monospace;
+    background-color: #4cd85e;
+}
+
+button:hover {
+    background-color: #44c759;
+    transition: 250ms;
+    cursor: pointer;
+}
+
+button:active {
+    position: relative;
+    top: 2px;
+    transition: 50ms;
+}
+
+button:disabled {
+    background-color: #eaeaea;
+    color: #a8a8a8;
+    cursor: not-allowed;
+}

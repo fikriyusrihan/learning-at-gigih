@@ -1,6 +1,6 @@
-import './Avatar.css';
+import './style.css';
 
-export default function Avatar({user, size = 48}) {
+export default function Index({user, size = 48}) {
   return (
     <div className="container">
       <h1>Hello, {user.name}</h1>

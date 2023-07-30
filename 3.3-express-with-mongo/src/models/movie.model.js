@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import toJSON from './plugins/converter.plugin.js';
 
 const movieSchema = new mongoose.Schema({
   title: {
@@ -11,6 +12,8 @@ const movieSchema = new mongoose.Schema({
     type: Number,
   },
 });
+
+movieSchema.plugin(toJSON);
 
 const Movie = mongoose.model('Movie', movieSchema);
 
