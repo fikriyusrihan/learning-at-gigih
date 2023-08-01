@@ -30,14 +30,14 @@ export default function Index() {
   }
 
   function handleLoginClick() {
-    const clientId = 'cea4b48f394e4ce1968c9adae17781c3';
+    const clientId = process.env.REACT_APP_CLIENT_ID;
     const redirectUri = 'http://localhost:3000/auth';
 
     let codeVerifier = generateRandomString(128);
 
     generateCodeChallenge(codeVerifier).then(codeChallenge => {
       let state = generateRandomString(16);
-      let scope = 'playlist-modify-private';
+      let scope = 'playlist-modify-private user-top-read';
 
       localStorage.setItem('code_verifier', codeVerifier);
 

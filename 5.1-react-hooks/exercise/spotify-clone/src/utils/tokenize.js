@@ -6,7 +6,7 @@ async function getAccessToken() {
     grant_type: 'authorization_code',
     code: code,
     redirect_uri: 'http://localhost:3000/auth',
-    client_id: 'cea4b48f394e4ce1968c9adae17781c3',
+    client_id: `${process.env.REACT_APP_CLIENT_ID}`,
     code_verifier: codeVerifier
   });
 
@@ -19,6 +19,7 @@ async function getAccessToken() {
       if (!response.ok) {
         throw new Error('HTTP status ' + response.status);
       }
+
       return response.json();
     })
     .then(data => {
@@ -36,7 +37,7 @@ async function refreshAccessToken() {
   const body = new URLSearchParams({
     grant_type: 'refresh_token',
     refresh_token: localStorage.getItem('refresh_token'),
-    client_id: 'cea4b48f394e4ce1968c9adae17781c3',
+    client_id: `${process.env.REACT_APP_CLIENT_ID}`,
   });
 
   fetch('https://accounts.spotify.com/api/token', {
