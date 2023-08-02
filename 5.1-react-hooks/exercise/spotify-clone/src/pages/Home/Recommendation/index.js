@@ -1,9 +1,9 @@
 import {useEffect, useState} from "react";
-import Row from "../../components/Row";
-import Card from "../../components/Card";
-import Track from "../../components/Track";
-import Loading from '../../components/Loading';
-import Button from '../../components/Button';
+import Row from "../../../components/Row";
+import Card from "../../../components/Card";
+import Track from "../../../components/Track";
+import Loading from '../../../components/Loading';
+import Button from '../../../components/Button';
 
 export default function Index() {
   const [isLoading, setIsLoading] = useState(true);
@@ -85,7 +85,7 @@ export default function Index() {
           </p>
         </div>
 
-        <Button text="Refresh" onClick={fetchRecommendation} />
+        <Button text="Refresh" onClick={fetchRecommendation}/>
       </Row>
 
 

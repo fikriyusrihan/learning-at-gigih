@@ -1,9 +1,9 @@
 import {useEffect, useState} from "react";
-import Loading from '../../components/Loading';
-import Row from "../../components/Row";
-import Button from "../../components/Button";
-import Card from "../../components/Card";
-import Playlist from "../../components/Playlist";
+import Loading from '../../../components/Loading';
+import Row from "../../../components/Row";
+import Button from "../../../components/Button";
+import Card from "../../../components/Card";
+import Playlist from "../../../components/Playlist";
 
 export default function Index() {
   const [response, setResponse] = useState({});

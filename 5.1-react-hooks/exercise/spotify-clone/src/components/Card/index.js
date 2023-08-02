@@ -1,4 +1,4 @@
-export default function Index({children, style}) {
+export default function Index({children, style, onClick}) {
   const componentStyle = {
     display: 'flex',
     flexDirection: 'column',
@@ -11,7 +11,7 @@ export default function Index({children, style}) {
   }
 
   return (
-    <div className="card" style={componentStyle}>
+    <div onClick={onClick} className="card" style={componentStyle}>
       {children}
     </div>
   )

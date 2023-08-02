@@ -1,8 +1,8 @@
-import Row from "../../components/Row";
-import Input from "../../components/Input";
-import Button from "../../components/Button";
-import Card from "../../components/Card";
-import Track from "../../components/Track";
+import Row from "../../../components/Row";
+import Input from "../../../components/Input";
+import Button from "../../../components/Button";
+import Card from "../../../components/Card";
+import Track from "../../../components/Track";
 import {useState} from "react";
 
 export default function Index() {

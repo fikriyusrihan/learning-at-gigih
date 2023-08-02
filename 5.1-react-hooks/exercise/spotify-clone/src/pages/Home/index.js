@@ -3,8 +3,9 @@ import Navbar from '../../components/Navbar';
 import Card from '../../components/Card';
 import TabContainer from '../../components/TabContainer';
 import TabWindow from '../../components/TabWindow';
-import Search from '../Search';
-import Recommendation from '../Recommendation';
+import Search from './Search';
+import Recommendation from './Recommendation';
+import Playlist from './Playlist';
 
 export default function Index() {
   const tabItems = [
@@ -54,7 +55,7 @@ export default function Index() {
           </TabWindow>
 
           <TabWindow key='playlist'>
-            <p>playlist</p>
+            <Playlist/>
           </TabWindow>
         </TabContainer>
       </Card>
