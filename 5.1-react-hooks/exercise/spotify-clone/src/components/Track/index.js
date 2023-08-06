@@ -2,7 +2,7 @@ import Button from "../Button";
 import Card from "../Card";
 import {durationToString} from "../../utils/track";
 
-export default function Index({track}) {
+export default function Index({track, children}) {
   return (
     <Card style={{
       flexDirection: 'row',
@@ -48,9 +48,12 @@ export default function Index({track}) {
             backgroundColor: 'transparent',
             color: 'green',
             border: 'green solid 2px',
-            padding: '8px 16px'
+            padding: '8px 16px',
+            marginRight: '8px'
           }} text={"▶ " + durationToString(track.duration_ms)}/>
         </a>
+
+        {children}
       </div>
     </Card>
   );

@@ -6,6 +6,7 @@ import TabWindow from '../../components/TabWindow';
 import Search from './Search';
 import Recommendation from './Recommendation';
 import Playlist from './Playlist';
+import {Navigate} from "react-router-dom";
 
 export default function Index() {
   const tabItems = [
@@ -22,6 +23,10 @@ export default function Index() {
       title: 'Playlist',
     },
   ]
+
+  if (!localStorage.getItem('authenticated')) {
+    return <Navigate replace to='/'/>
+  }
 
   return (
     <Window style={{

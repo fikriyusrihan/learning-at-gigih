@@ -12,6 +12,11 @@ export default function Index() {
   function handleAuth() {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');
+
+    if (!code) {
+      navigate('/');
+    }
+
     localStorage.setItem('code', code);
 
     getAccessToken().then(() => {

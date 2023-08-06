@@ -1,8 +1,9 @@
 import {BrowserRouter, Routes, Route} from "react-router-dom";
-import Login from './pages/Login';
 import Auth from './pages/Auth';
 import Home from './pages/Home';
+import Login from './pages/Login';
 import Playlist from './pages/Playlist';
+import CreatePlaylist from './pages/Playlist/CreatePlaylist';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/home" element={<Home/>}/>
 
         <Route path="/playlists/:playlistId" element={<Playlist/>}/>
+        <Route path="/playlists/create" element={<CreatePlaylist/>}/>
       </Routes>
     </BrowserRouter>
   );

@@ -2,6 +2,7 @@ import {windowStyle, cardStyle, h1Style, pStyle, buttonStyle} from "./style";
 import Window from '../../components/Window';
 import Card from '../../components/Card';
 import Button from '../../components/Button';
+import {Navigate} from "react-router-dom";
 
 export default function Index() {
   function generateRandomString(length) {
@@ -37,7 +38,7 @@ export default function Index() {
 
     generateCodeChallenge(codeVerifier).then(codeChallenge => {
       let state = generateRandomString(16);
-      let scope = 'playlist-modify-private user-top-read';
+      let scope = 'playlist-modify-private user-top-read playlist-modify-public';
 
       localStorage.setItem('code_verifier', codeVerifier);
 
@@ -54,6 +55,11 @@ export default function Index() {
       window.location = 'https://accounts.spotify.com/authorize?' + args;
     });
   }
+
+
+  if (localStorage.getItem('authenticated')) {
+    return <Navigate replace to='/home'/>
+  } 
 
   return (
     <Window style={windowStyle}>

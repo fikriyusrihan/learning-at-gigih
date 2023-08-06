@@ -17,16 +17,22 @@ async function getAccessToken() {
   })
     .then(response => {
       if (!response.ok) {
+        if (response.status === 401) {
+          refreshAccessToken().then(() => {
+            window.location.reload();
+          });
+        }
+
         throw new Error('HTTP status ' + response.status);
       }
 
       return response.json();
     })
     .then(data => {
-      const {access_token, refresh_token, token_type} = data;
+      const {access_token, refresh_token} = data;
       localStorage.setItem('access_token', access_token);
       localStorage.setItem('refresh_token', refresh_token);
-      localStorage.setItem('token_type', token_type);
+      localStorage.setItem('authenticated', "true");
     })
     .catch(error => {
       console.error('Error:', error);
@@ -60,6 +66,12 @@ async function refreshAccessToken() {
     })
     .catch(error => {
       console.error('Error:', error);
+
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('refresh_token');
+      localStorage.removeItem('authenticated');
+
+      window.location.reload();
     });
 }
 

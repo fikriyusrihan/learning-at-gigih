@@ -1,14 +1,8 @@
 import Card from '../Card';
-import {useNavigate} from "react-router-dom";
 
-export default function Index({playlist}) {
-  const navigate = useNavigate();
-  const handleClick = () => {
-    navigate(`/playlists/${playlist.id}`);
-  }
-
+export default function Index({playlist, onClick}) {
   return (
-    <Card onClick={handleClick} style={{
+    <Card onClick={onClick} style={{
       flexDirection: 'row',
       justifyContent: 'flex-start',
       alignItems: 'center',

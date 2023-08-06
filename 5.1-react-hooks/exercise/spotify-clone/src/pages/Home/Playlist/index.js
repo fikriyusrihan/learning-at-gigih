@@ -4,8 +4,11 @@ import Row from "../../../components/Row";
 import Button from "../../../components/Button";
 import Card from "../../../components/Card";
 import Playlist from "../../../components/Playlist";
+import {useNavigate} from "react-router-dom";
+import {refreshAccessToken} from "../../../utils/tokenize";
 
 export default function Index() {
+  const navigate = useNavigate();
   const [response, setResponse] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
@@ -18,6 +21,12 @@ export default function Index() {
       }
     }).then(response => {
       if (!response.ok) {
+        if (response.status === 401) {
+          refreshAccessToken().then(() => {
+            window.location.reload();
+          });
+        }
+
         throw new Error('HTTP status ' + response.status);
       }
       return response.json();
@@ -38,6 +47,12 @@ export default function Index() {
       }
     }).then(response => {
       if (!response.ok) {
+        if (response.status === 401) {
+          refreshAccessToken().then(() => {
+            window.location.reload();
+          });
+        }
+
         throw new Error('HTTP status ' + response.status);
       }
       return response.json();
@@ -48,6 +63,14 @@ export default function Index() {
     }).finally(() => {
       setIsLoading(false);
     });
+  }
+
+  const handlePlaylistClick = (playlistId) => {
+    navigate(`/playlists/${playlistId}`);
+  }
+
+  const handleNewPlaylistClick = () => {
+    navigate('/playlists/create');
   }
 
   useEffect(() => {
@@ -65,6 +88,12 @@ export default function Index() {
       }
     }).then(response => {
       if (!response.ok) {
+        if (response.status === 401) {
+          refreshAccessToken().then(() => {
+            window.location.reload();
+          });
+        }
+
         throw new Error('HTTP status ' + response.status);
       }
       return response.json()
@@ -79,18 +108,25 @@ export default function Index() {
 
   return (
     <>
-      <h2 style={{
-        margin: '0 0 4px 0',
-      }}>Your Playlists</h2>
-
-      <p style={{
-        margin: 0,
+      <Row style={{
         marginBottom: '16px',
       }}>
-        {isLoading ?
-          <span>Please kindly wait<Loading/></span> :
-          <span>Create and customize your musical world（￣︶￣）↗</span>}
-      </p>
+        <div>
+          <h2 style={{
+            margin: '0 0 4px 0',
+          }}>Your Playlists</h2>
+
+          <p style={{
+            margin: 0,
+          }}>
+            {isLoading ?
+              <span>Please kindly wait<Loading/></span> :
+              <span>Create and customize your musical world（￣︶￣）↗</span>}
+          </p>
+        </div>
+
+        <Button text="+ New" onClick={handleNewPlaylistClick}/>
+      </Row>
 
       {response.items?.length > 0 && (
         <>
@@ -112,7 +148,7 @@ export default function Index() {
               padding: '0',
             }}>
               {response.items.map((playlist) => (
-                <Playlist key={playlist.id} playlist={playlist}/>
+                <Playlist key={playlist.id} playlist={playlist} onClick={() => handlePlaylistClick(playlist.id)}/>
               ))}
             </Card>
           </Row>

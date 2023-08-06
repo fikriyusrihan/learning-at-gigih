@@ -1,4 +1,5 @@
 import ProfileBadge from '../ProfileBadge';
+import Button from '../Button';
 
 export default function Index({style}) {
   const componentStyle = {
@@ -15,6 +16,19 @@ export default function Index({style}) {
     ...style
   }
 
+  const handleLogoutClick = () => {
+    // eslint-disable-next-line no-restricted-globals
+    if (!confirm('Are you sure to logout?')) {
+      return;
+    }
+
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    localStorage.removeItem('authenticated');
+
+    window.location.reload();
+  }
+
   return (
     <div style={{
       display: 'flex',
@@ -22,7 +36,16 @@ export default function Index({style}) {
     }}>
       <nav style={componentStyle}>
         <div style={{fontWeight: 'bold'}}>GIGIH <br/>Listen ♪</div>
-        <ProfileBadge/>
+        <div style={{
+          display: 'flex',
+          flexDirection: 'row'
+        }}>
+          <ProfileBadge style={{marginRight: '8px'}}/>
+          <Button onClick={handleLogoutClick} text='Logout' style={{
+            padding: '8px 16px',
+            backgroundColor: 'transparent',
+          }}/>
+        </div>
       </nav>
     </div>
   );

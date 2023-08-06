@@ -15,6 +15,9 @@ export default function Index({style}) {
     });
 
     const data = await response.json();
+
+    localStorage.setItem('user_id', data.id);
+
     setProfile(data);
   }
 
